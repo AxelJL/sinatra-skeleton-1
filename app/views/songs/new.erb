@@ -1,19 +1,31 @@
+<% if @song && @song.errors.any? %>
+  <div>
+    <strong>There are some issues with your message. Please fix the following:</strong>
+    <ul>
+      <% @song.errors.full_messages.each do |song| %>
+        <li><%= song %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
 <form method="post" action="/songs">
   <div>
     <label>Song Title:</label>
-    <input type="text" name="song_title">
+    <input type="text" name="song_title" value="<%= @song.song_title %>">
   </div>
   <div>
     <label>Artist:</label>
-    <input type="text" name="artist">
+    <input type="text" name="artist" value="<%= @song.artist %>">
   </div>
   <div>
     <label>Posted By:</label>
-    <input type="text" name="author">
+    <input type="text" name="author" value="<%= @song.author %>">
   </div>
   <div>
     <label>YouTube URL:</label>
-    <input type="text" name="url">
+    <input type="text" name="url" value="<%= @song.url %>">
   </div>
   <div>
     <input type="submit" value="Submit">
