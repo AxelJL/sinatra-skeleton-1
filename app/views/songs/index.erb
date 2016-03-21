@@ -1,6 +1,6 @@
 <% @songs.each do |song| %>
   <div class="song">
-    <h3><%= song.song_title %>, <%= song.artist %></h3>
+    <h3><a href="/songs/<%= song.id %>"><%= song.song_title %></a></h3>
     <small>(Posted by: <%=song.author %>)</small>
     <p>
       <a href="<%= song.url %>"><%= song.url %></a>
