@@ -52,7 +52,7 @@ post '/songs' do
 end
 
 get '/songs/:id' do
-  song = Song.find params[:id]
+  @song = Song.find params[:id]
   erb :'songs/show'
 end
 
@@ -85,16 +85,11 @@ delete '/login' do
   redirect "/"
 end
 
-put '/likes' do
-  song = Song.find(id: params[:id])
-  song.likes += 1
-  song.save
-  redirect :'songs'
+post '/likes' do
+  Upvote.create(user_id: session[:user_id], song_id: params[:song_id])
+  redirect "/songs/#{params[:song_id]}"
 end
 
-# post '/dislike' do
-
-# end
 
 
 

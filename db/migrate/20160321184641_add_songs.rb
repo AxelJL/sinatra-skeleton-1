@@ -5,6 +5,7 @@ class AddSongs < ActiveRecord::Migration
       t.string :artist
       t.string :author
       t.string :url
+      t.integer :likes, default: 0
       t.timestamps
     end
   end

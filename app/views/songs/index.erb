@@ -3,11 +3,13 @@
     <h3><a href="/songs/<%= song.id %>"><%= song.song_title %></a></h3>
     <small>Posted by: <%=song.author %> on <%= song.created_at%></small>
     <br>
-    <form method="PUT" action="/likes">
-    <input type="hidden" name="<% song.id %>" value="PUT">
-    <input type="submit" value="Like">
+    <form method="POST" action="/likes">
+    <input type="hidden" name="song_id" value="<%= song.id%>">
+      <button class="btn btn-default btn-lg">
+        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 
+      </button>
     </form>
-    <!-- <input type="submit" value="Dislike"> -->
+    <p>Total Likes: <%= song.likes %></p>
   </div>
 <% end %>
 <br>
