@@ -9,25 +9,41 @@
   </div>
 <% end %>
 
-
-<form method="post" action="/songs">
-  <div>
-    <label>Song Title:</label>
-    <input type="text" name="song_title" value="<%= @song.song_title %>">
-  </div>
-  <div>
-    <label>Artist:</label>
-    <input type="text" name="artist" value="<%= @song.artist %>">
-  </div>
-  <div>
-    <label>Posted By:</label>
-    <input type="text" name="author" value="<%= @song.author %>">
-  </div>
-  <div>
-    <label>YouTube URL:</label>
-    <input type="text" name="url" value="<%= @song.url %>">
-  </div>
-  <div>
-    <input type="submit" value="Submit">
-  </div>
-</form>
+<% if logged_in %>
+  <form method="POST" action="/songs">
+    <div>
+      <label>Song Title:</label>
+      <br>
+      <input type="text" name="song_title">
+    </div>
+    <div>
+      <label>Artist:</label>
+      <br>
+      <input type="text" name="artist">
+    </div>
+    <div>
+      <label>Genre:</label>
+      <select name="genre" id= "genre">
+        <option value="Pop">Pop</option>
+        <option value="Rock">Rock</option>
+        <option value="Country">Country</option>
+        <option value="Indie">Indie</option>
+        <option value="Hip Hop">Hip Hop</option>
+        <option value="Classical">Classical</option>
+        <option value="Electronic">Electronic</option>
+        <option value="Jazz">Jazz</option>
+        <option value="Other">Other</option>
+      </select>
+    <div>
+      <label>YouTube URL:</label>
+      <br>
+      <input type="text" name="url">
+    </div>
+    <div>
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+<% else %>
+  <p>Sorry, you must be logged in to submit a song.</p>
+  <p>No account? No problem! You can make one <a href="../signup">here.</a></p>
+<% end %>
