@@ -1,32 +1,39 @@
 <h1><%= @song.song_title %></h1>
 <h2><%= @song.artist %></h2>
-  <p>Genre: <%= @song.genre %></p>
-  <p>
-    <a href="<%= @song.url %>"><%= @song.url %></a>
-  </p>
+<p>Genre: <%= @song.genre %></p>
+<p><a href="<%= @song.url %>"><%= @song.url %></a></p>
 <% if logged_in %>
 
-<form method="POST" action="/review">
-  <div>
-    <label>Thoughts on the song?</label>
-    <br>
-    <input type="hidden" name="song_id" value="<%= @song.id %>">
-    <input type="text" name="review" placeholder="Enter comment">
-    <input type="submit" value="Submit">
-  </div>
-</form>
+  <% if already_reviewed(@song) %>
+    <p>You have already reviewed this track!</p>
+  <% else %>
+    <form method="POST" action="/review">
+        <label>Thoughts on the song?</label>
+        <br>
+          <input type="hidden" name="song_id" value="<%= @song.id %>">
+          <input type="text" name="review" placeholder="Enter comment">
+          <input type="submit" value="Submit">
+    </form>
+  <% end %>
 
 
-<h3>All Comments</h3>
-  <% @review.each do |review| %>
-  <div class="review">
-    <small>Posted by: <%= current_user.username %> on <%= review.created_at %></small>
-    <p><%= review.review %></p>
-  </div>
+  <h3>All Comments</h3>
+  <% @reviews.each do |review| %>
+    <div class="review">
+      <small>Posted by: <%= review.user.username %> on <%= review.created_at %></small>
+      <p><%= review.review %></p>
+      <% if review.user_id == current_user.id %>
+        <form method="POST" action="/review/<%= review.id %>">
+          <input type="hidden" name="_method" value="DELETE">
+          <input class="btn btn-primary" type="submit" value="Delete">
+        </form>
+      <% end %>
+    </div>
   <% end %>
 
 <% else %>
-<p>Want to view the comments or post one yourself? <a href="../signup">Sign up here!</a></p>
+  <p>Want to view the comments or post one yourself? <a href="../signup">Sign up here!</a></p>
+
 <% end %>
 
-  <a href="/songs">Back to All Songs</a>
+<a href="/songs">Back to All Songs</a>

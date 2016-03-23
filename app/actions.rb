@@ -1,4 +1,3 @@
-# Homepage (Root path)
 helpers do
   def current_user
     if session[:user_id]
@@ -10,8 +9,11 @@ helpers do
     session[:user_id]
   end
 
+  def already_reviewed(song)
+    !song.reviews.where(user_id: current_user.id).empty?
+    # !Review.where(user_id: current_user.id, song_id: song.id).empty?
+  end
 end
-
 
 get '/' do
   erb :index
@@ -53,18 +55,24 @@ end
 
 get '/songs/:id' do
   @song = Song.find(params[:id])
-  @review = Review.where(song_id: @song)
+  @reviews = Review.where(song_id: @song)
   erb :'songs/show'
 end
 
 post '/review' do
   review = Review.new(
     review: params[:review],
-    user_id: current_user.username,
+    user_id: current_user.id,
     song_id: params[:song_id]
     )
   review.save
   redirect "/songs/#{params[:song_id]}"
+end
+
+delete '/review/:id' do
+  review = Review.find(params[:id])
+  review.destroy
+  redirect back
 end
 
 get '/signup' do
@@ -88,6 +96,9 @@ post '/login' do
   if user && user.password == params[:password]
     session[:user_id] = user.id
     redirect '/'
+  else
+    session[:alert] = "Please try again."
+    redirect back
   end
 end
 
