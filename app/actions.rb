@@ -29,13 +29,13 @@ get '/songs/new' do
   erb :'songs/new'
 end
 
-get '/genres' do
-  erb :'genres/index'
-end
+# get '/genres' do
+#   erb :'genres/index'
+# end
 
-get '/genres/pop' do
-  erb :'genres/pop'
-end
+# get '/genres/pop' do
+#   erb :'genres/pop'
+# end
 
 post '/songs' do
   song = Song.new(
@@ -63,7 +63,8 @@ post '/review' do
   review = Review.new(
     review: params[:review],
     user_id: current_user.id,
-    song_id: params[:song_id]
+    song_id: params[:song_id],
+    rating: params[:rating]
     )
   review.save
   redirect "/songs/#{params[:song_id]}"

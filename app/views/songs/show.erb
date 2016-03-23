@@ -12,7 +12,15 @@
         <br>
           <input type="hidden" name="song_id" value="<%= @song.id %>">
           <input type="text" name="review" placeholder="Enter comment">
-          <input type="submit" value="Submit">
+        <label>Rating</label>
+          <select name="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        <input type="submit" value="Submit">
     </form>
   <% end %>
 
@@ -21,6 +29,7 @@
   <% @reviews.each do |review| %>
     <div class="review">
       <small>Posted by: <%= review.user.username %> on <%= review.created_at %></small>
+      <p>Rating: <%=review.rating %></p>
       <p><%= review.review %></p>
       <% if review.user_id == current_user.id %>
         <form method="POST" action="/review/<%= review.id %>">
