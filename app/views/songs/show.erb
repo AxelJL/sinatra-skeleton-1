@@ -4,5 +4,29 @@
   <p>
     <a href="<%= @song.url %>"><%= @song.url %></a>
   </p>
+<% if logged_in %>
+
+<form method="POST" action="/review">
+  <div>
+    <label>Thoughts on the song?</label>
+    <br>
+    <input type="hidden" name="song_id" value="<%= @song.id %>">
+    <input type="text" name="review" placeholder="Enter comment">
+    <input type="submit" value="Submit">
+  </div>
+</form>
+
+
+<h3>All Comments</h3>
+  <% @review.each do |review| %>
+  <div class="review">
+    <small>Posted by: <%= current_user.username %> on <%= review.created_at %></small>
+    <p><%= review.review %></p>
+  </div>
+  <% end %>
+
+<% else %>
+<p>Want to view the comments or post one yourself? <a href="../signup">Sign up here!</a></p>
+<% end %>
 
   <a href="/songs">Back to All Songs</a>

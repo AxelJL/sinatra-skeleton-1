@@ -52,8 +52,19 @@ post '/songs' do
 end
 
 get '/songs/:id' do
-  @song = Song.find params[:id]
+  @song = Song.find(params[:id])
+  @review = Review.where(song_id: @song)
   erb :'songs/show'
+end
+
+post '/review' do
+  review = Review.new(
+    review: params[:review],
+    user_id: current_user.username,
+    song_id: params[:song_id]
+    )
+  review.save
+  redirect "/songs/#{params[:song_id]}"
 end
 
 get '/signup' do
@@ -87,7 +98,7 @@ end
 
 post '/likes' do
   Upvote.create(user_id: session[:user_id], song_id: params[:song_id])
-  redirect "/songs/#{params[:song_id]}"
+  redirect "/songs"
 end
 
 
